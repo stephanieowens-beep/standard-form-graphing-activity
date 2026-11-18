@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standard Form to Slope-Intercept Challenge — Teacher Edition</title>
+<style>
+:root{--navy:#18324b;--blue:#276a9b;--pale:#edf5fb;--green:#237a4b;--red:#a73535;--ink:#202b36}
+*{box-sizing:border-box} body{margin:0;background:#f3f6f9;color:var(--ink);font:16px/1.45 Arial,sans-serif}
+header{background:var(--navy);color:white;padding:22px 18px;text-align:center}
+header h1{margin:0 0 5px;font-size:clamp(23px,4vw,32px)} header p{margin:0;color:#e4edf5}
+main{max-width:1050px;margin:22px auto;padding:0 14px}
+.panel{background:white;border:1px solid #d8e1e9;border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 2px 8px #18324b0c}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.progress{height:10px;background:#e5ebf0;border-radius:10px;overflow:hidden;margin-top:12px}.bar{height:100%;width:0;background:#39956a;transition:width .2s}
+.eq{font-size:30px;font-weight:bold;color:var(--navy);text-align:center;padding:12px}
+.grid{display:grid;grid-template-columns:minmax(260px,1fr) minmax(300px,1.2fr);gap:20px}
+label{display:block;font-weight:bold;margin:13px 0 5px}
+input{width:100%;padding:10px;border:1px solid #aebdca;border-radius:7px;font-size:17px}
+button{border:0;border-radius:8px;padding:11px 17px;font-size:16px;font-weight:bold;cursor:pointer}
+.primary{background:var(--blue);color:white}.secondary{background:#e8eef3;color:var(--navy)}button:disabled{opacity:.45;cursor:not-allowed}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}
+#graph{width:100%;max-width:520px;display:block;margin:auto;border:1px solid #c8d3dc;border-radius:8px;touch-action:manipulation}
+.hint{font-size:14px;color:#526271}.feedback{margin-top:14px;padding:12px;border-radius:8px;display:none}.good{display:block;background:#e8f5ed;color:#155c37}.bad{display:block;background:#fff0ef;color:#8b2929}
+.instructions{background:var(--pale);border-radius:9px;padding:12px;margin-top:10px}
+.pill{background:#e8eef3;padding:5px 10px;border-radius:20px;font-weight:bold;color:var(--navy)}
+.complete{text-align:center;padding:30px}.complete h2{color:var(--green)}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.eq{font-size:26px}}
+</style>
+</head>
+<body>
+<header><h1>Standard Form to Slope-Intercept Challenge</h1><p>Rewrite each standard-form equation, identify intercepts, and graph the line!</p></header>
+<section id="teacherSetup" class="panel" style="max-width:800px;margin:24px auto;display:none">
+<h2>Teacher Setup — Make Your Student Link</h2>
+<p>First, publish this <code>index.html</code> on your own GitHub Pages site. Then open your site with <code>?setup=1</code> at the end of its address. Paste your Google Form's published responder link below to generate a link for your students.</p>
+<label for="teacherForm">Your Google Form responder link</label>
+<input id="teacherForm" type="url" placeholder="https://docs.google.com/forms/d/e/.../viewform" style="width:100%">
+<div class="actions"><button id="generateLink" class="primary" type="button">Generate Student Link</button></div>
+<div id="teacherResult" hidden><label for="studentUrl">Copy this link into Google Classroom</label><input id="studentUrl" readonly style="width:100%"><div class="actions"><button class="secondary" id="copyLink" type="button">Copy Link</button><a id="testLink" target="_blank" rel="noopener noreferrer">Test Student Link</a></div></div>
+<p id="setupError" class="feedback bad" hidden></p>
+<p class="hint">Each teacher should host their own copy so progress and links remain independent. Student progress is stored in that student's browser, not in Google Forms. The form records submissions, not verified graphing results. Do not use a form edit link.</p>
+</section>
+<main>
+<section class="panel">
+ <div class="top"><strong id="step">Equation 1 of 15</strong><span class="pill" id="score">0 of 15 completed</span></div>
+ <div class="progress"><div class="bar" id="bar"></div></div>
+ <p class="hint">Your work saves automatically on this browser. First rewrite the standard-form equation in slope-intercept form (y = mx + b), then identify slope and intercepts and graph. For a vertical line, enter x = number instead because it cannot be written as y = mx + b. Use “undefined” for its slope and “none” for its y-intercept.</p>
+</section>
+<section class="panel" id="resume" hidden><strong>Welcome back!</strong> Your saved progress was restored on this device. <button class="secondary" id="restart" type="button">Start Over / New Student</button></section>
+<section class="panel" id="work">
+ <div class="eq" id="equation">y = 2x + 4</div>
+ <div class="grid">
+  <div>
+   <h3>Part 1: Rewrite and Identify</h3><label for="rewrite">Rewrite the equation (y = mx + b)</label><input id="rewrite" placeholder="e.g., y = -1/2x + 3 or x = 2" autocomplete="off"><p class="hint">Use fractions or decimals. For a horizontal line, write y = number. Vertical lines must stay in the form x = number.</p><p class="hint">You may enter fractions (such as -1/2) or decimals (such as -0.5). For an intercept that does not exist, type none; for an undefined slope, type undefined.</p>
+   <label for="slope">Slope (m)</label><input id="slope" inputmode="decimal" placeholder="e.g., 1/2, -3/2, or 0.5">
+   <label for="yint">Y-intercept (b)</label><input id="yint" inputmode="decimal" placeholder="e.g., 3, -1/2, or none">
+   <label for="xint">X-intercept</label><input id="xint" inputmode="decimal" placeholder="e.g., -2, 3/2, or none">
+   <div class="instructions"><b>Part 2: Graph</b><br>Click two different points on the coordinate plane that lie on your line. Use the intercepts when possible. Your points will appear on the graph.</div>
+   <p class="hint">Click a point to place it. Click it again to remove it. You need two points.</p>
+   <div class="actions"><button class="secondary" id="clear">Clear points</button><button class="primary" id="check">Check My Work</button></div>
+   <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+   <div class="actions"><button class="primary" id="next" disabled>Next Equation →</button></div>
+  </div>
+  <div>
+   <h3>Coordinate Plane</h3>
+   <canvas id="graph" width="520" height="520" aria-label="Coordinate plane from negative 8 to positive 8. Click to plot two points."></canvas>
+   <p class="hint">The graph goes from −8 to 8 on both axes. Each grid square represents 1 unit.</p>
+  </div>
+ </div>
+</section>
+<section class="panel complete" id="finish" hidden>
+<h2>Challenge Complete!</h2>
+<p>You successfully rewrote and graphed all 15 equations.</p>
+<p id="finalscore"></p>
+<p><strong>Last step: Submit your completion information.</strong></p>
+<p>Click the button below to open your teacher’s Google Form. Enter your first and last name and class hour, then submit the form. Your assignment is not recorded by your teacher until you submit the form.</p>
+<p id="formAction"><a id="formLink" class="primary" style="display:inline-block;text-decoration:none;border-radius:8px;padding:12px 20px" href="#" target="_blank" rel="noopener noreferrer">Submit My Completion Form ↗</a></p>
+<p id="missingForm" class="hint" hidden>No teacher completion form has been connected. Ask your teacher for the correct activity link.</p>
+<p class="hint">The form opens in a new tab. Return here if you need to see your completion screen again.</p>
+<button class="secondary" onclick="restart()">Start Over / New Student</button>
+</section>
+</main>
+<script>
+
+// The teacher-specific form is supplied in the student URL, never hard-coded.
+const urlParams=new URLSearchParams(location.search);
+const setupMode=urlParams.get('setup')==='1';
+function validFormLink(value){
+ try{const u=new URL(value);return u.protocol==='https:'&&u.hostname==='docs.google.com'&&/^\/forms\/d\/(?:e\/)?[^/]+\/viewform\/?$/.test(u.pathname)}catch(e){return false}
+}
+function configureForm(){
+ const form=urlParams.get('form')||'';
+ const anchor=document.getElementById('formLink');
+ if(validFormLink(form)){anchor.href=form;document.getElementById('missingForm').hidden=true;document.getElementById('formAction').hidden=false;}
+ else{anchor.removeAttribute('href');document.getElementById('missingForm').hidden=false;document.getElementById('formAction').hidden=true;}
+}
+if(setupMode){
+ document.getElementById('teacherSetup').style.display='block';
+ document.querySelector('main').hidden=true;
+ document.getElementById('generateLink').onclick=()=>{
+  const input=document.getElementById('teacherForm').value.trim();
+  const err=document.getElementById('setupError');
+  if(!validFormLink(input)){err.hidden=false;err.textContent='Please enter a published Google Forms responder link ending in /viewform.';document.getElementById('teacherResult').hidden=true;return;}
+  err.hidden=true;
+  const student=new URL(location.href);student.search='';student.hash='';student.searchParams.set('form',input);
+  document.getElementById('studentUrl').value=student.href;
+  document.getElementById('testLink').href=student.href;
+  document.getElementById('teacherResult').hidden=false;
+ };
+ document.getElementById('copyLink').onclick=()=>{
+  const input=document.getElementById('studentUrl');input.select();
+  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(input.value).catch(()=>{});
+ };
+}else configureForm();
+
+const problems=[
+ {m:2,b:3,x:-1.5,eq:"2x − y = −3"},
+ {m:-1,b:4,x:4,eq:"x + y = 4"},
+ {m:.5,b:-2,x:4,eq:"x − 2y = 4"},
+ {m:-2,b:2,x:1,eq:"2x + y = 2"},
+ {m:3,b:-3,x:1,eq:"3x − y = 3"},
+ {m:-.5,b:3,x:6,eq:"x + 2y = 6"},
+ {m:2,b:-4,x:2,eq:"4x − 2y = 8"},
+ {m:-3,b:6,x:2,eq:"3x + y = 6"},
+ {m:1,b:0,x:0,eq:"x − y = 0"},
+ {m:.25,b:2,x:-8,eq:"x − 4y = −8"},
+ {m:-2,b:5,x:2.5,eq:"2x + y = 5"},
+ {m:0,b:3,x:null,eq:"0x + 2y = 6"},
+ {m:null,b:null,x:-2,eq:"3x + 0y = −6"},
+ {m:1.5,b:-3,x:2,eq:"3x − 2y = 6"},
+ {m:-.5,b:-1,x:-2,eq:"x + 2y = −2"}
+];
+// Parse a student's rewritten equation as a linear expression without evaluating code.
+function parseRewrite(raw){
+ let t=raw.toLowerCase().replace(/[\s−–]/g,c=>c==='−'||c==='–'?'-':'').replace(/\*/g,'');
+ const parts=t.split('=');if(parts.length!==2)return null;
+ let lhs=parts[0],rhs=parts[1];
+ if(lhs==='x'){const n=parseNumber(rhs);return Number.isFinite(n)?{vertical:n}:null;}
+ if(lhs!=='y')return null;
+ // y = mx + b; also accept y = b + mx, y = x, y = -x, y = constant.
+ const tokens=rhs.replace(/-/g,'+-').split('+').filter(Boolean);
+ if(!tokens.length||tokens.length>2)return null;
+ let m=0,b=0,seenX=false,seenB=false;
+ for(let term of tokens){
+  if(term.includes('x')){
+   if(seenX||!term.endsWith('x'))return null;
+   seenX=true;let coef=term.slice(0,-1);
+   m=coef===''?1:coef==='-'?-1:parseNumber(coef);
+   if(!Number.isFinite(m))return null;
+  }else{
+   if(seenB)return null;seenB=true;b=parseNumber(term);if(!Number.isFinite(b))return null;
+  }
+ }
+ return {m,b};
+}
+function parseNumber(value){
+ const v=String(value).replace(/\s+/g,'');
+ if(/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(v))return Number(v);
+ const f=v.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))\/([+-]?(?:\d+(?:\.\d*)?|\.\d+))$/);
+ if(f&&Number(f[2])!==0)return Number(f[1])/Number(f[2]);
+ return NaN;
+}
+function rewriteCorrect(p){
+ const v=parseRewrite(document.getElementById('rewrite').value);
+ if(!v)return false;
+ if(p.m===null)return Number.isFinite(v.vertical)&&Math.abs(v.vertical-p.x)<1e-8;
+ return Number.isFinite(v.m)&&Number.isFinite(v.b)&&Math.abs(v.m-p.m)<1e-8&&Math.abs(v.b-p.b)<1e-8;
+}
+
+let index=0, points=[], done=0, passed=false;
+const SAVE_KEY='standard-to-slope-challenge-v1-progress-'+(urlParams.get('form')||'unconfigured');
+let storageOK=true;
+function save(){
+ const data={version:4,index,done,passed,points,finished:!document.getElementById('finish').hidden,
+  answers:Object.fromEntries(['rewrite','slope','yint','xint'].map(id=>[id,document.getElementById(id).value]))};
+ try{localStorage.setItem(SAVE_KEY,JSON.stringify(data));}catch(e){storageOK=false;}
+}
+function refreshProgress(){
+ document.getElementById('score').textContent=`${done} of ${problems.length} completed`;
+ document.getElementById('bar').style.width=(done/problems.length*100)+'%';
+}
+function showFinish(){
+ document.getElementById('work').hidden=true;
+ document.getElementById('finish').hidden=false;
+ document.getElementById('finalscore').textContent=`You completed ${done} out of ${problems.length} equations.`;
+ save();
+}
+function restore(){
+ let data=null;
+ try{data=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');}catch(e){storageOK=false;}
+ if(!data||data.version!==4||!Number.isInteger(data.index)||data.index<0||data.index>=problems.length||!Number.isInteger(data.done)||data.done<0||data.done>problems.length)return false;
+ index=data.index;done=data.done;load();
+ ['rewrite','slope','yint','xint'].forEach(id=>document.getElementById(id).value=String(data.answers?.[id]??''));
+ points=Array.isArray(data.points)?data.points.filter(p=>Array.isArray(p)&&p.length===2&&p.every(v=>Number.isInteger(v)&&v>=-8&&v<=8)).slice(0,2):[];
+ passed=Boolean(data.passed);draw();refreshProgress();
+ if(passed){
+  document.getElementById('check').disabled=true;
+  document.getElementById('clear').disabled=true;
+  document.getElementById('next').disabled=false;
+  const f=document.getElementById('feedback');f.className='feedback good';f.textContent='Correct! This question was already completed. Continue when ready.';
+ }
+ if(data.finished&&done===problems.length)showFinish();
+ document.getElementById('resume').hidden=false;
+ return true;
+}
+function restart(){
+ if(!confirm('Start over from Question 1? This will erase saved progress on this browser.'))return;
+ try{localStorage.removeItem(SAVE_KEY);}catch(e){}
+ index=0;done=0;passed=false;points=[];
+ document.getElementById('work').hidden=false;
+ document.getElementById('finish').hidden=true;
+ document.getElementById('resume').hidden=true;
+ load();refreshProgress();save();
+}
+
+const canvas=document.getElementById('graph'),ctx=canvas.getContext('2d');
+const W=520, pad=28, span=W-2*pad, unit=span/16;
+function xy(x,y){return [pad+(x+8)*unit,pad+(8-y)*unit]}
+function coord(px,py){return [Math.round((px-pad)/unit-8),Math.round(8-(py-pad)/unit)]}
+function draw(){
+ ctx.clearRect(0,0,W,W);ctx.fillStyle="#fff";ctx.fillRect(0,0,W,W);
+ for(let n=-8;n<=8;n++){
+  let [gx]=xy(n,0),[,gy]=xy(0,n);
+  ctx.beginPath();ctx.strokeStyle=n===0?"#34495e":"#e1e7ec";ctx.lineWidth=n===0?2:1;
+  ctx.moveTo(gx,pad);ctx.lineTo(gx,W-pad);ctx.moveTo(pad,gy);ctx.lineTo(W-pad,gy);ctx.stroke();
+  if(n!==0){ctx.fillStyle="#596875";ctx.font="11px Arial";ctx.textAlign="center";ctx.fillText(n,gx, W-pad+16);ctx.textAlign="right";ctx.fillText(n,pad-7,gy+4)}
+ }
+ ctx.fillStyle="#34495e";ctx.font="bold 13px Arial";ctx.textAlign="center";ctx.fillText("x",W-12,W/2+17);ctx.fillText("y",W/2+14,15);
+ // Once two points are plotted, draw the line through them across the coordinate plane.
+ if(points.length===2){
+  const [a,b]=points, dx=b[0]-a[0], dy=b[1]-a[1];
+  const hits=[];
+  const add=(x,y)=>{if(x>=-8-1e-8&&x<=8+1e-8&&y>=-8-1e-8&&y<=8+1e-8&&!hits.some(q=>Math.abs(q[0]-x)<1e-7&&Math.abs(q[1]-y)<1e-7))hits.push([x,y])};
+  if(Math.abs(dx)<1e-8){add(a[0],-8);add(a[0],8);}
+  else{
+   add(-8,a[1]+dy/dx*(-8-a[0])); add(8,a[1]+dy/dx*(8-a[0]));
+   if(Math.abs(dy)>1e-8){add(a[0]+dx/dy*(-8-a[1]),-8);add(a[0]+dx/dy*(8-a[1]),8);}
+  }
+  if(hits.length>=2){
+   const [p1,p2]=[hits[0],hits[1]], [x1,y1]=xy(...p1), [x2,y2]=xy(...p2);
+   ctx.save();ctx.beginPath();ctx.rect(pad,pad,span,span);ctx.clip();
+   ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle="#d04b38";ctx.lineWidth=3;ctx.stroke();ctx.restore();
+  }
+ }
+ points.forEach(([x,y])=>{let [px,py]=xy(x,y);ctx.beginPath();ctx.arc(px,py,7,0,Math.PI*2);ctx.fillStyle="#276a9b";ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke();ctx.fillStyle="#18324b";ctx.font="bold 12px Arial";ctx.textAlign="left";ctx.fillText(`(${x}, ${y})`,px+9,py-8)});
+}
+canvas.addEventListener('click',e=>{
+ if(passed)return;
+ const r=canvas.getBoundingClientRect(),px=(e.clientX-r.left)*W/r.width,py=(e.clientY-r.top)*W/r.height;
+ if(px<pad||px>W-pad||py<pad||py>W-pad)return;
+ const p=coord(px,py);if(points.some(q=>q[0]===p[0]&&q[1]===p[1]))points=points.filter(q=>q[0]!==p[0]||q[1]!==p[1]);else if(points.length<2)points.push(p);
+ draw();save();document.getElementById('feedback').className='feedback';document.getElementById('feedback').textContent='';
+});
+function load(){
+ const p=problems[index];document.getElementById('step').textContent=`Equation ${index+1} of ${problems.length}`;
+ document.getElementById('equation').textContent=p.eq;
+ ['rewrite','slope','yint','xint'].forEach(id=>document.getElementById(id).value='');
+ points=[];passed=false;draw();
+ document.getElementById('feedback').className='feedback';document.getElementById('feedback').textContent='';
+ document.getElementById('next').disabled=true;document.getElementById('check').disabled=false;
+ document.getElementById('clear').disabled=false;
+}
+function num(id){
+ const v=document.getElementById(id).value.trim().replace(/\s+/g,'').replace(/−/g,'-');
+ if(!v)return NaN;
+ const fraction=v.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+))\/([+-]?(?:\d+(?:\.\d*)?|\.\d+))$/);
+ if(fraction){const denominator=Number(fraction[2]);return denominator===0?NaN:Number(fraction[1])/denominator;}
+ return /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(v)?Number(v):NaN;
+}
+function isNone(id){return ['none','undefined','n/a','na'].includes(document.getElementById(id).value.trim().toLowerCase())}
+function matches(id, expected){
+ if(expected===null)return isNone(id);
+ const v=num(id);return Number.isFinite(v)&&Math.abs(v-expected)<1e-8;
+}
+function onLine(point,p){
+ const [x,y]=point;
+ if(p.m===null)return Math.abs(x-p.x)<1e-8;
+ if(p.m===0)return Math.abs(y-p.b)<1e-8;
+ return Math.abs(y-(p.m*x+p.b))<1e-8;
+}
+document.getElementById('clear').onclick=()=>{points=[];draw();save();document.getElementById('feedback').className='feedback'};
+document.getElementById('check').onclick=()=>{
+ const p=problems[index];
+ let issues=[];
+ if(!rewriteCorrect(p))issues.push(p.m===null?'Rewrite this vertical line as x = number.':'Check your slope-intercept equation. Solve for y first.');
+ if(!matches('slope',p.m))issues.push(p.m===null?'Enter “undefined” for the slope.':'Check the slope.');
+ if(!matches('yint',p.b))issues.push(p.b===null?'Enter “none” for the y-intercept.':'Check the y-intercept.');
+ if(!matches('xint',p.x))issues.push(p.x===null?'Enter “none” for the x-intercept.':'Check the x-intercept.');
+ if(points.length!==2)issues.push('Plot two different points on the line.');
+ else if(points[0][0]===points[1][0]&&points[0][1]===points[1][1])issues.push('Choose two different points.');
+ else if(points.some(point=>!onLine(point,p)))issues.push('Your plotted point(s) are not on the equation. Move them onto the line.');
+ const f=document.getElementById('feedback');
+ if(issues.length){f.className='feedback bad';f.innerHTML='<b>Not quite yet.</b><br>'+issues.join('<br>')+'<br>Try again!';}
+ else{
+  f.className='feedback good';f.innerHTML='<b>Correct! Great work.</b><br>Your rewritten equation, slope, both intercepts, and graph are all correct. You may move on.';
+  passed=true;done++;document.getElementById('score').textContent=`${done} of ${problems.length} completed`;
+  document.getElementById('bar').style.width=(done/problems.length*100)+'%';
+  document.getElementById('next').disabled=false;document.getElementById('check').disabled=true;document.getElementById('clear').disabled=true;save();
+ }
+};
+document.getElementById('next').onclick=()=>{
+ if(index<problems.length-1){index++;load();save();}
+ else{showFinish();}
+};
+['rewrite','slope','yint','xint'].forEach(id=>document.getElementById(id).addEventListener('input',save));
+document.getElementById('restart').addEventListener('click',restart);
+if(!setupMode){if(!restore()){load();refreshProgress();}}
+</script>
+</body></html>
